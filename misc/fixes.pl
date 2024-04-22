@@ -47,6 +47,8 @@ while (<>) {
 
     # Gif doesn't play well with latex
     s#!\[Visual\]\(.*minkowski.gif\)#[minkowski.gif](https://raw.githubusercontent.com/e-maxx-eng/e-maxx-eng/master/img/minkowski.gif)#;
+    # URL args after images doesn't work, fix some cases.
+    s#(\.jpeg)\?w=[0-9]*#\1#g;
 
     # Expand image root
     s#&imgroot&#../../static/img#g;
@@ -80,6 +82,9 @@ while (<>) {
     # Seems the repo now also uses \[ \] math after the engine change.
     s/\\\[/\$\$/g;
     s/\\\]/\$\$/g;
+
+    # Pls don't use unicode symbols like this in math mode.
+    s/−/-/g;
 
     # Convert en-space
     s/&ensp;/\\enspace/g;

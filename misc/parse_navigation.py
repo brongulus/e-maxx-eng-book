@@ -48,7 +48,10 @@ with open(sys.argv[1]) as f:
     stack = [root]
     for s in f:
         level = indent_level(s)
-        s = s.strip().removeprefix('- ')
+        if s.strip().startswith('- '):
+            s = s.strip().removeprefix('- ')
+        else:
+            continue
 
         while level < len(stack) - 1:
             stack.pop()

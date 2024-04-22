@@ -9,3 +9,4 @@ grep -hroE 'https?://[^ ]*(png|jpe?g)' ../../src |
 while read url; do
     wget -nc "$url"
 done
+curl https://i.imgur.com/eyO7St4.png -o eyO7St4.png
