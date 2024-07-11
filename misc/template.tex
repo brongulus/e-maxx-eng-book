@@ -53,11 +53,12 @@
 
 \usepackage{graphicx,grffile}
 \usepackage{float}
+\usepackage{longtable,siunitx,booktabs,calc}
 
 %%%
 
-% Hack around some unicode char usage
-\DeclareUnicodeCharacter{2264}{\leq}
+% Hack around some unicode char usage (Throwing error in tectonic)
+% \DeclareUnicodeCharacter{2264}{\leq}
 
 % Misc
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
@@ -87,6 +88,16 @@
 % Set default figure placement to have figures in-place
 % Not nice to LaTeX, but makes thing similar to the HTML
 \makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
 \def\fps@figure{H}
 %\def\fps@figure{htbp}
 \makeatother
@@ -102,9 +113,9 @@
 \fi
 \makeatother
 
-% Figure centering
-\let\oldincludegraphics\includegraphics
-\def\includegraphics#1{\begin{center}\oldincludegraphics{#1}\end{center}}
+% Figure centering (messing up \pandocbounded)
+%% \let\oldincludegraphics\includegraphics
+%% \def\includegraphics#1{\begin{center}\oldincludegraphics{#1}\end{center}}
 
 % Figure sizing
 \makeatletter

@@ -10,7 +10,7 @@ travis: LATEXMK_FLAGS += -interaction=nonstopmode -auxdir=aux
 travis: book
 
 e-maxx.pdf: e-maxx.tex
-	latexmk ${LATEXMK_FLAGS} $<
+	tectonic $< --print
 
 e-maxx.tex: $(TEXS) misc/assemble.sh misc/parse_navigation.py misc/template.tex
 	bash misc/assemble.sh > $@
@@ -20,4 +20,5 @@ e-maxx.tex: $(TEXS) misc/assemble.sh misc/parse_navigation.py misc/template.tex
 
 clean:
 	@rm -f $(TEXS)
+	@cp e-maxx.pdf out.pdf
 	@rm -f e-maxx.*
